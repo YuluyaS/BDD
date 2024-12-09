@@ -1,7 +1,8 @@
 plugins {
     id 'java'
-    id  "io.freefair.lombok" version '8.2.2 '
+    id "io.freefair.lombok" version "8.2.2"
 }
+
 
 group = 'ru.netology'
 version = '1.0-SNAPSHOT'

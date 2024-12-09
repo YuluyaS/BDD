@@ -7,6 +7,8 @@ import ru.netology.data.DataHelper;
 
 import java.time.Duration;
 
+//import java.time.Duration;
+
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byText;
@@ -18,7 +20,7 @@ public class TransferPage {
     private final SelenideElement amountInput = $("[data-test-id='amount']input");
     private final SelenideElement fromInput = $("[data-test-id='from']input");
     private final SelenideElement transferHead = $(byText("Пополнение карты"));
-    private final SelenideElement errorMessage = $("[data-test-id='error-notification'].notification__content");
+    private final SelenideElement errorMessage = $("[data-test-id='error-notification'].notification_content");
 
     public TransferPage(){
         transferHead.shouldBe(visible);
@@ -26,8 +28,8 @@ public class TransferPage {
 
     public DashboardPage makeValidTransfer(String amountToTransfer, DataHelper.CardInfo cardInfo) {
         makeTransfer(amountToTransfer, cardInfo);
-        DashboardPage dashboardPage = new DashboardPage();
-        return DashboardPage();
+
+        return new DashboardPage();
     }
 
     public void makeTransfer(String amountToTransfer, DataHelper.CardInfo cardInfo) {
@@ -37,7 +39,9 @@ public class TransferPage {
     }
 
     public void findErrorMessage(String expectedText) {
-        errorMessage.shouldHave(Condition.text(expectedText)), Duration.ofSeconds(15); shouldBe(visible);
+
+        errorMessage.shouldHave(
+                Condition.text(expectedText), Duration.ofSeconds(15)).shouldHave(visible);
     }
 
 }

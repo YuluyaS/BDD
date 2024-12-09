@@ -4,9 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.data.DataHelper;
 import ru.netology.page.LoginPage;
-import ru.netology.data.DataHelper;
 import ru.netology.page.DashboardPage;
-import ru.netology.page.LoginPage;
+import ru.netology.page.TransferPage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -17,8 +16,8 @@ import static ru.netology.data.DataHelper.*;
 
 public class MoneyTransferTest {
     DashboardPage dashboardPage;
-    DataHelper.CardInfo firstCardInfo;
-    DataHelper.CardInfo secondCardInfo;
+    CardInfo firstCardInfo;
+    CardInfo secondCardInfo;
     int firstCardBalance;
     int secondCardBalance;
 
@@ -46,8 +45,13 @@ public class MoneyTransferTest {
         dashboardPage.reloadDashboardPage();
         var actualBalanceFirstCard = dashboardPage.getCardBalance(firstCardInfo);
         var actualBalanceSecondCard = dashboardPage.getCardBalance(secondCardInfo);
+
+        //assertEquals(expectedBalanceFirstCard, actualBalanceFirstCard);
+        //assertEquals(expectedBalanceSecondCard, actualBalanceSecondCard);
+
         assertAll(() -> assertEquals(expectedBalanceFirstCard, actualBalanceFirstCard),
                  () -> assertEquals(expectedBalanceSecondCard, actualBalanceSecondCard));
+
     }
 
 
@@ -59,7 +63,7 @@ public class MoneyTransferTest {
         assertAll(() -> transferPage.findErrorMessage("Выполнена попытка перевода суммы превышающей остаток на карте"),
                   () -> dashboardPage.reloadDashboardPage(),
                   () -> assertEquals(firstCardBalance, dashboardPage.getCardBalance(firstCardInfo)),
-                  () -> assertEquals(secondCardBalance, dashboardPage.getCardBalance(secondCardInfo));
+                  () -> assertEquals(secondCardBalance, dashboardPage.getCardBalance(secondCardInfo)));
     }
 
 }

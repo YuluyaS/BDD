@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
-public class DashboardPage<TransferPage> {
+public class DashboardPage {
     //private static final ElementsCollection $$ =? ;
     // к сожалению, разработчики не дали нам удобного селектора, поэтому так
     private final String balanceStart = "баланс: ";
@@ -51,5 +51,7 @@ public class DashboardPage<TransferPage> {
     }
 
     public int getCardBalance(DataHelper.CardInfo firstCardInfo) {
+
+        return 0;
     }
 }

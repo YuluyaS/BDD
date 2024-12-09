@@ -1,13 +1,16 @@
 package ru.netology.data;
 
-
 import ru.netology.page.VerificationPage;
 
+
 public class DataHelper {
+
     private DataHelper() {
+
     }
 
     public static VerificationCode getVerificationCode() {
+
         return new VerificationCode("12345");
     }
 
@@ -17,6 +20,7 @@ public class DataHelper {
 
     public static CardInfo getFirstCardInfo() {
         return new CardInfo("5559 0000 0000 0001", "92df3flc-a033-48e6-8390-206f6blf56c0");
+
     }
 
     public static CardInfo getSecondCardInfo() {
@@ -35,6 +39,15 @@ public class DataHelper {
     //@Value
     public static class VerificationCode {
         String code;
+
+        public VerificationCode(String code) {
+
+            this.code = code;
+        }
+
+        public String getCode() {
+            return this.code;
+        }
     }
 
 
@@ -42,14 +55,43 @@ public class DataHelper {
     public static class CardInfo {
         String cardNumber;
         String testId;
+
+        public CardInfo(String cardNumber, String testId) {
+
+            this.cardNumber = cardNumber;
+            this.testId = testId;
+        }
+
+        public String getCardNumber() {
+            return this.cardNumber;
+        }
+
+        public String getTestId() {
+
+            return this.testId;
+        }
     }
 
     //@Value
     public static class AuthInfo {
         String login;
         String password;
-    }
 
+        public AuthInfo(String login, String password) {
+
+            this.login = login;
+            this.password = password;
+        }
+
+        public String getLogin() {
+            return this.login;
+        }
+
+        public String getPassword() {
+            return this.password;
+        }
+
+    }
 }
 
 
