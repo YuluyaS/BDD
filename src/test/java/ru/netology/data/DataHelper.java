@@ -1,5 +1,7 @@
 package ru.netology.data;
 
+import lombok.Getter;
+import lombok.Value;
 import ru.netology.page.VerificationPage;
 
 
@@ -36,7 +38,8 @@ public class DataHelper {
 
     }
 
-    //@Value
+
+    @Value
     public static class VerificationCode {
         String code;
 
@@ -45,13 +48,10 @@ public class DataHelper {
             this.code = code;
         }
 
-        public String getCode() {
-            return this.code;
-        }
     }
 
 
-    //@Value
+    @Value
     public static class CardInfo {
         String cardNumber;
         String testId;
@@ -72,7 +72,7 @@ public class DataHelper {
         }
     }
 
-    //@Value
+    @Value
     public static class AuthInfo {
         String login;
         String password;

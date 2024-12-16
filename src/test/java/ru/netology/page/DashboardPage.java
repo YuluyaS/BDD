@@ -22,16 +22,16 @@ public class DashboardPage {
         heading.shouldBe(visible);
     }
 
-    public int getFirstCardBalance(DataHelper.CardInfo cardInfo) {
-        var text = cards.findBy(Condition.attribute("data-test-id", cardInfo.getTestId())).getText();
-        return extractBalance(text);
-    }
+    //public int getFirstCardBalance(DataHelper.CardInfo cardInfo) {
+        //var text = cards.findBy(Condition.attribute("data-test-id", cardInfo.getTestId())).getText();
+        //return extractBalance(text);
+   // }
 
-    public int getFirstCardBalance(int index) {
-        var text = cards.get(index).getText();
-        return extractBalance(text);
+    //public int getFirstCardBalance(int index) {
+        //var text = cards.get(index).getText();
+        //return extractBalance(text);
 
-    }
+    //}
 
     public TransferPage selectCardToTransfer(DataHelper.CardInfo cardInfo) {
         cards.findBy(Condition.attribute("data-test-id", cardInfo.getTestId())).$("button").click();
@@ -50,8 +50,16 @@ public class DashboardPage {
         return Integer.parseInt(value);
     }
 
-    public int getCardBalance(DataHelper.CardInfo firstCardInfo) {
+    public int getCardBalance(DataHelper.CardInfo cardInfo) {
 
-        return 0;
+        int cardBalance;
+        String testId = cardInfo.getTestId();
+
+        var text = cards.first().text();
+
+        cardBalance = extractBalance(text);
+
+
+        return cardBalance;
     }
 }
