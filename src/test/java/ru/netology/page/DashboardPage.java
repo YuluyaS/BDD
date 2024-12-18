@@ -22,10 +22,10 @@ public class DashboardPage {
         heading.shouldBe(visible);
     }
 
-    //public int getFirstCardBalance(DataHelper.CardInfo cardInfo) {
-        //var text = cards.findBy(Condition.attribute("data-test-id", cardInfo.getTestId())).getText();
-        //return extractBalance(text);
-   // }
+    public int getFirstCardBalance(DataHelper.CardInfo cardInfo) {
+        var text = cards.findBy(Condition.attribute("data-test-id", cardInfo.getTestId())).getText();
+        return extractBalance(text);
+    }
 
     //public int getFirstCardBalance(int index) {
         //var text = cards.get(index).getText();
@@ -52,12 +52,30 @@ public class DashboardPage {
 
     public int getCardBalance(DataHelper.CardInfo cardInfo) {
 
+        System.out.println("getCardBalance -> cardInfo=" + cardInfo);
         int cardBalance;
-        String testId = cardInfo.getTestId();
+        //String testId = cardInfo.getTestId();
+        //System.out.println("getCardBalance -> testId=" + testId);
 
-        var text = cards.first().text();
+        var text3 = cards.findBy(Condition.attribute("data-test-id", cardInfo.getTestId())).getText();
+        System.out.println("getCardBalance -> text3=" + text3);
 
-        cardBalance = extractBalance(text);
+
+
+        //var text = cards.first().text();
+        //System.out.println("getCardBalance -> text=" + text);
+
+        //var text1 = cards.last().text();
+        //System.out.println("getCardBalance -> text1=" + text1);
+
+        //var text2 = cards.findBy(Condition.attribute("data-test-id", testId)).getText();
+        //System.out.println("getCardBalance -> text2=" + text2);
+
+
+        cardBalance = extractBalance(text3);
+        //System.out.println("getCardBalance -> cardBalance=" + cardBalance);
+
+
 
 
         return cardBalance;

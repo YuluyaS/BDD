@@ -32,14 +32,21 @@ public class MoneyTransferTest {
         firstCardInfo = DataHelper.getFirstCardInfo();
         secondCardInfo = DataHelper.getSecondCardInfo();
         firstCardBalance = dashboardPage.getCardBalance(firstCardInfo);
+        System.out.println("setup -> firstCardBalance=" + firstCardBalance);
         secondCardBalance = dashboardPage.getCardBalance(secondCardInfo);
+        System.out.println("setup -> secondCardBalance=" + secondCardBalance);
     }
 
     @Test
     void shouldTransferFromFirstToSecond(){
+        System.out.println("shouldTransferFromFirstToSecond -> firstCardBalance=" + firstCardBalance);
+        System.out.println("shouldTransferFromFirstToSecond -> secondCardBalance=" + secondCardBalance);
         var amount = generateValidAmount(firstCardBalance);
+        System.out.println("shouldTransferFromFirstToSecond -> amount=" + amount);
         var expectedBalanceFirstCard = firstCardBalance-amount;
+        System.out.println("shouldTransferFromFirstToSecond -> expectedBalanceFirstCard=" + expectedBalanceFirstCard);
         var expectedBalanceSecondCard = secondCardBalance+amount;
+        System.out.println("shouldTransferFromFirstToSecond -> expectedBalanceSecondCard=" + expectedBalanceSecondCard);
         var transferPage = dashboardPage.selectCardToTransfer(secondCardInfo);
         dashboardPage = transferPage.makeValidTransfer(String.valueOf(amount), firstCardInfo);
         dashboardPage.reloadDashboardPage();
