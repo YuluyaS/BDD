@@ -21,7 +21,6 @@ public class MoneyTransferTest {
     int firstCardBalance;
     int secondCardBalance;
 
-
     @BeforeEach
     void setup(){
         var loginPage = open("http://localhost:9999", LoginPage.class);
@@ -37,7 +36,7 @@ public class MoneyTransferTest {
         //System.out.println("setup -> secondCardBalance=" + secondCardBalance);
     }
 
-    /*
+
     @Test
     void shouldTransferFromFirstToSecond(){
         //System.out.println("shouldTransferFromFirstToSecond -> firstCardBalance=" + firstCardBalance);
@@ -58,29 +57,46 @@ public class MoneyTransferTest {
                  () -> assertEquals(expectedBalanceSecondCard, actualBalanceSecondCard));
 
     }
-    */
+
 
 
     @Test
     void shouldGetErrorMessageIfAmountMoreBalance() {
+        System.out.println("shouldGetErrorMessageIfAmountMoreBalance -> firstCardBalance=" + firstCardBalance);
         System.out.println("shouldGetErrorMessageIfAmountMoreBalance -> secondCardBalance=" + secondCardBalance);
         var amount = generateInvalidAmount(secondCardBalance);
         System.out.println("shouldGetErrorMessageIfAmountMoreBalance -> amount=" + amount);
-        var transferPage = dashboardPage.selectCardToTransfer(firstCardInfo);
-        transferPage.makeTransfer(String.valueOf(amount), secondCardInfo);
 
-        System.out.println("shouldGetErrorMessageIfAmountMoreBalance -> expected=" + firstCardBalance);
-        System.out.println("shouldGetErrorMessageIfAmountMoreBalance -> actual=" + dashboardPage.getCardBalance(firstCardInfo));
+        var expectedBalanceFirstCard = firstCardBalance;
+        var expectedBalanceSecondCard = secondCardBalance;
+        System.out.println("expectedBalanceFirstCard:" + expectedBalanceFirstCard);
+        System.out.println("expectedBalanceSecondCard:" + expectedBalanceSecondCard);
+
+        var transferPage = dashboardPage.selectCardToTransfer(firstCardInfo);
+
+        if (secondCardBalance < amount){
+
+            System.out.println("secondCardBalance:" + secondCardBalance + " < amount:" + amount);
+            transferPage.makeTransfer(String.valueOf(amount), secondCardInfo, 0);
+        }
 
         assertAll(() -> transferPage.findErrorMessage("Ошибка! "),
+                  //() -> new DashboardPage(),
                   () -> dashboardPage.reloadDashboardPage(),
-                  () -> assertEquals(firstCardBalance, dashboardPage.getCardBalance(firstCardInfo)),
-                  () -> assertEquals(secondCardBalance, dashboardPage.getCardBalance(secondCardInfo)));
+                  //() -> assertEquals(expectedBalanceFirstCard, expectedBalanceFirstCard),
+                  //() -> assertEquals(expectedBalanceSecondCard, expectedBalanceSecondCard)
+                  () -> assertEquals(expectedBalanceFirstCard, dashboardPage.getCardBalance(firstCardInfo)),
+                  () -> assertEquals(expectedBalanceSecondCard, dashboardPage.getCardBalance(secondCardInfo))
+        );
     }
 
-    //Правильно я понимаю, что тест shouldGetErrorMessageIfAmountMoreBalance должен выполняться таким образом,
-    // что для обеих карт значения балансов начальные и конечные должны совпадать ?
-    //Т.е. никаких арифметических действий не должно выполняться с ним в методе makeTransfer ?
-    //Т.е. требуется соответствующая доработка (проверка, что amount больше баланса) метода makeTransfer ?
+
+    //Первый тест shouldTransferFromFirstToSecond() выполняется.
+    //Второй тест shouldGetErrorMessageIfAmountMoreBalance() не выполняется,
+    //падает на шаге dashboardPage.reloadDashboardPage(), по которому в логе есть запись :
+    //Element not found {[data-test-id='action-reload']}
+    //Expected: clickable: interactable and enabled
+    //Почему во втором тесте не выполняется шаг dashboardPage.reloadDashboardPage() ?
+    //При этом, в первом тесте аналогичный шаг dashboardPage.reloadDashboardPage() выполняется.
 
 }

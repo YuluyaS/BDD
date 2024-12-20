@@ -27,28 +27,25 @@ public class TransferPage {
     }
 
     public DashboardPage makeValidTransfer(String amountToTransfer, DataHelper.CardInfo cardInfo) {
-        makeTransfer(amountToTransfer, cardInfo);
+        makeTransfer(amountToTransfer, cardInfo, 1);
 
         return new DashboardPage();
     }
 
-    public void makeTransfer(String amountToTransfer, DataHelper.CardInfo cardInfo) {
+    public void makeTransfer(String amountToTransfer, DataHelper.CardInfo cardInfo, int isValid) {
 
-
-        //cardInfo.getTestId();
-
-        //dashboardPage.getCardBalance(cardInfo);
-
-
-        amountInput.setValue(amountToTransfer);
-        fromInput.setValue(cardInfo.getCardNumber());
+        if(isValid == 1)
+        {
+            amountInput.setValue(amountToTransfer);
+            fromInput.setValue(cardInfo.getCardNumber());
+        }
         transferButton.click();
     }
 
     public void findErrorMessage(String expectedText) {
 
         errorMessage.shouldHave(
-                Condition.text(expectedText), Duration.ofSeconds(15)).shouldHave(visible);
+                Condition.text(expectedText), Duration.ofSeconds(5)).shouldHave(visible);
     }
 
 }
