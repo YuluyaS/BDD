@@ -31,58 +31,72 @@ public class MoneyTransferTest {
         firstCardInfo = DataHelper.getFirstCardInfo();
         secondCardInfo = DataHelper.getSecondCardInfo();
         firstCardBalance = dashboardPage.getCardBalance(firstCardInfo);
-        //System.out.println("setup -> firstCardBalance=" + firstCardBalance);
         secondCardBalance = dashboardPage.getCardBalance(secondCardInfo);
-        //System.out.println("setup -> secondCardBalance=" + secondCardBalance);
     }
 
 
     @Test
     void shouldTransferFromFirstToSecond(){
-        //System.out.println("shouldTransferFromFirstToSecond -> firstCardBalance=" + firstCardBalance);
-        //System.out.println("shouldTransferFromFirstToSecond -> secondCardBalance=" + secondCardBalance);
+
         var amount = generateValidAmount(firstCardBalance);
-        //System.out.println("shouldTransferFromFirstToSecond -> amount=" + amount);
-        var expectedBalanceFirstCard = firstCardBalance-amount;
-        //System.out.println("shouldTransferFromFirstToSecond -> expectedBalanceFirstCard=" + expectedBalanceFirstCard);
-        var expectedBalanceSecondCard = secondCardBalance+amount;
-        //System.out.println("shouldTransferFromFirstToSecond -> expectedBalanceSecondCard=" + expectedBalanceSecondCard);
+        var expectedFirstCardBalance = firstCardBalance-amount;
+        var expectedSecondCardBalance = secondCardBalance+amount;
         var transferPage = dashboardPage.selectCardToTransfer(secondCardInfo);
         dashboardPage = transferPage.makeValidTransfer(String.valueOf(amount), firstCardInfo);
         dashboardPage.reloadDashboardPage();
         var actualBalanceFirstCard = dashboardPage.getCardBalance(firstCardInfo);
         var actualBalanceSecondCard = dashboardPage.getCardBalance(secondCardInfo);
 
-        assertAll(() -> assertEquals(expectedBalanceFirstCard, actualBalanceFirstCard),
-                 () -> assertEquals(expectedBalanceSecondCard, actualBalanceSecondCard));
+        assertAll(() -> assertEquals(expectedFirstCardBalance, actualBalanceFirstCard),
+                 () -> assertEquals(expectedSecondCardBalance, actualBalanceSecondCard));
 
     }
 
 
     @Test
     void shouldGetErrorMessageIfAmountMoreBalance() {
-        //System.out.println("shouldGetErrorMessageIfAmountMoreBalance -> firstCardBalance=" + firstCardBalance);
-        //System.out.println("shouldGetErrorMessageIfAmountMoreBalance -> secondCardBalance=" + secondCardBalance);
-        var amount = generateInvalidAmount(secondCardBalance);
-        System.out.println("shouldGetErrorMessageIfAmountMoreBalance -> amount=" + amount);
 
-        var expectedBalanceFirstCard = firstCardBalance;
-        var expectedBalanceSecondCard = secondCardBalance;
-        //System.out.println("expectedBalanceFirstCard:" + expectedBalanceFirstCard);
-        //System.out.println("expectedBalanceSecondCard:" + expectedBalanceSecondCard);
+        var amount = generateInvalidAmount(secondCardBalance);
+        var expectedFirstCardBalance = firstCardBalance;
+        var expectedSecondCardBalance = secondCardBalance;
 
         var transferPage = dashboardPage.selectCardToTransfer(firstCardInfo);
 
-        dashboardPage = transferPage.makeInvalidTransfer(String.valueOf(amount), secondCardInfo);
+        //dashboardPage = transferPage.makeInvalidTransfer(String.valueOf(amount), secondCardInfo);
+        transferPage.makeTransfer(String.valueOf(amount), secondCardInfo);
 
         assertAll(() -> transferPage.findErrorMessage("Ошибка! "),
-                  () -> transferPage.cancelButton(),
+                  //() -> transferPage.cancelButton(),
                   () -> dashboardPage.reloadDashboardPage(),
-                  () -> assertEquals(expectedBalanceFirstCard, dashboardPage.getCardBalance(firstCardInfo)),
-                  () -> assertEquals(expectedBalanceSecondCard, dashboardPage.getCardBalance(secondCardInfo))
+                  () -> assertEquals(expectedFirstCardBalance, dashboardPage.getCardBalance(firstCardInfo)),
+                  () -> assertEquals(expectedSecondCardBalance, dashboardPage.getCardBalance(secondCardInfo))
         );
     }
 
+
+
+    //Кроме того, в случае заполнения невалидными данными,
+    //не выполняется соответствующая проверка доступных средств для перевода,
+    //в результате чего, неправильно рассчитываются балансы обеих карт,
+    //т.е. сумма перевода amount прибавляется к балансу карты, куда переводим,
+    //и amount вычитается из баланса карты, откуда переводим.
+
+    @Test
+    void shouldGetIncorrectBalancesForTransferIfAmountMoreBalance() {
+
+        var amount = generateInvalidAmount(secondCardBalance);
+        var expectedFirstCardBalance = firstCardBalance + amount;
+        var expectedSecondCardBalance = secondCardBalance - amount;
+
+        var transferPage = dashboardPage.selectCardToTransfer(firstCardInfo);
+
+        transferPage.makeTransfer(String.valueOf(amount), secondCardInfo);
+
+        assertAll(() -> dashboardPage.reloadDashboardPage(),
+                () -> assertEquals(expectedFirstCardBalance, dashboardPage.getCardBalance(firstCardInfo)),
+                () -> assertEquals(expectedSecondCardBalance, dashboardPage.getCardBalance(secondCardInfo))
+        );
+    }
 
 
 

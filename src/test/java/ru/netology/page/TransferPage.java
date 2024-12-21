@@ -29,23 +29,17 @@ public class TransferPage {
 
     public DashboardPage makeValidTransfer(String amountToTransfer, DataHelper.CardInfo cardInfo) {
 
-        makeTransfer(amountToTransfer, cardInfo, 1);
+        makeTransfer(amountToTransfer, cardInfo);
         return new DashboardPage();
     }
 
-    public DashboardPage makeInvalidTransfer(String amountToTransfer, DataHelper.CardInfo cardInfo) {
 
-        makeTransfer(amountToTransfer, cardInfo, 0);
-        return new DashboardPage();
-    }
 
-    public void makeTransfer(String amountToTransfer, DataHelper.CardInfo cardInfo, int isValid) {
+    public void makeTransfer(String amountToTransfer, DataHelper.CardInfo cardInfo) {
 
-        if(isValid == 1) {
+        amountInput.setValue(amountToTransfer);
+        fromInput.setValue(cardInfo.getCardNumber());
 
-            amountInput.setValue(amountToTransfer);
-            fromInput.setValue(cardInfo.getCardNumber());
-        }
         transferButton.click();
     }
 

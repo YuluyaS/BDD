@@ -35,9 +35,6 @@ public class DashboardPage {
 
     public TransferPage selectCardToTransfer(DataHelper.CardInfo cardInfo) {
         cards.findBy(Condition.attribute("data-test-id", cardInfo.getTestId())).$("button").click();
-        //System.out.println("selectCardToTransfer -> cardInfo=" + cardInfo);
-
-
         return new TransferPage();
     }
 
@@ -55,16 +52,11 @@ public class DashboardPage {
 
     public int getCardBalance(DataHelper.CardInfo cardInfo) {
 
-        System.out.println("getCardBalance -> cardInfo=" + cardInfo);
         int cardBalance;
         String testId = cardInfo.getTestId();
-        //System.out.println("getCardBalance -> testId=" + testId);
 
         var text = cards.findBy(Condition.attribute("data-test-id", cardInfo.getTestId())).getText();
-        //System.out.println("getCardBalance -> text=" + text);
-
         cardBalance = extractBalance(text);
-        //System.out.println("getCardBalance -> cardBalance=" + cardBalance);
 
         return cardBalance;
     }
