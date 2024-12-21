@@ -59,44 +59,31 @@ public class MoneyTransferTest {
     }
 
 
-
     @Test
     void shouldGetErrorMessageIfAmountMoreBalance() {
-        System.out.println("shouldGetErrorMessageIfAmountMoreBalance -> firstCardBalance=" + firstCardBalance);
-        System.out.println("shouldGetErrorMessageIfAmountMoreBalance -> secondCardBalance=" + secondCardBalance);
+        //System.out.println("shouldGetErrorMessageIfAmountMoreBalance -> firstCardBalance=" + firstCardBalance);
+        //System.out.println("shouldGetErrorMessageIfAmountMoreBalance -> secondCardBalance=" + secondCardBalance);
         var amount = generateInvalidAmount(secondCardBalance);
         System.out.println("shouldGetErrorMessageIfAmountMoreBalance -> amount=" + amount);
 
         var expectedBalanceFirstCard = firstCardBalance;
         var expectedBalanceSecondCard = secondCardBalance;
-        System.out.println("expectedBalanceFirstCard:" + expectedBalanceFirstCard);
-        System.out.println("expectedBalanceSecondCard:" + expectedBalanceSecondCard);
+        //System.out.println("expectedBalanceFirstCard:" + expectedBalanceFirstCard);
+        //System.out.println("expectedBalanceSecondCard:" + expectedBalanceSecondCard);
 
         var transferPage = dashboardPage.selectCardToTransfer(firstCardInfo);
 
-        if (secondCardBalance < amount){
-
-            System.out.println("secondCardBalance:" + secondCardBalance + " < amount:" + amount);
-            transferPage.makeTransfer(String.valueOf(amount), secondCardInfo, 0);
-        }
+        dashboardPage = transferPage.makeInvalidTransfer(String.valueOf(amount), secondCardInfo);
 
         assertAll(() -> transferPage.findErrorMessage("Ошибка! "),
-                  //() -> new DashboardPage(),
+                  () -> transferPage.cancelButton(),
                   () -> dashboardPage.reloadDashboardPage(),
-                  //() -> assertEquals(expectedBalanceFirstCard, expectedBalanceFirstCard),
-                  //() -> assertEquals(expectedBalanceSecondCard, expectedBalanceSecondCard)
                   () -> assertEquals(expectedBalanceFirstCard, dashboardPage.getCardBalance(firstCardInfo)),
                   () -> assertEquals(expectedBalanceSecondCard, dashboardPage.getCardBalance(secondCardInfo))
         );
     }
 
 
-    //Первый тест shouldTransferFromFirstToSecond() выполняется.
-    //Второй тест shouldGetErrorMessageIfAmountMoreBalance() не выполняется,
-    //падает на шаге dashboardPage.reloadDashboardPage(), по которому в логе есть запись :
-    //Element not found {[data-test-id='action-reload']}
-    //Expected: clickable: interactable and enabled
-    //Почему во втором тесте не выполняется шаг dashboardPage.reloadDashboardPage() ?
-    //При этом, в первом тесте аналогичный шаг dashboardPage.reloadDashboardPage() выполняется.
+
 
 }
