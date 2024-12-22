@@ -49,10 +49,7 @@ public class TransferPage {
                 Condition.text(expectedText), Duration.ofSeconds(5)).shouldHave(visible);
     }
 
-    public void cancelButton() {
 
-        cancelButton.click();
-    }
 
 
 }
