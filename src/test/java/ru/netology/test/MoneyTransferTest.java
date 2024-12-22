@@ -62,11 +62,9 @@ public class MoneyTransferTest {
 
         var transferPage = dashboardPage.selectCardToTransfer(firstCardInfo);
 
-        //dashboardPage = transferPage.makeInvalidTransfer(String.valueOf(amount), secondCardInfo);
         transferPage.makeTransfer(String.valueOf(amount), secondCardInfo);
 
         assertAll(() -> transferPage.findErrorMessage("Ошибка! "),
-                  //() -> transferPage.cancelButton(),
                   () -> dashboardPage.reloadDashboardPage(),
                   () -> assertEquals(expectedFirstCardBalance, dashboardPage.getCardBalance(firstCardInfo)),
                   () -> assertEquals(expectedSecondCardBalance, dashboardPage.getCardBalance(secondCardInfo))
@@ -76,11 +74,11 @@ public class MoneyTransferTest {
 
 
     @Test
-    void shouldGetIncorrectBalancesForTransferIfAmountMoreBalance() {
+    void shouldGetInvariableBalancesForTransferIfAmountMoreBalance() {
 
         var amount = generateInvalidAmount(secondCardBalance);
-        var expectedFirstCardBalance = firstCardBalance + amount;
-        var expectedSecondCardBalance = secondCardBalance - amount;
+        var expectedFirstCardBalance = firstCardBalance;
+        var expectedSecondCardBalance = secondCardBalance;
 
         var transferPage = dashboardPage.selectCardToTransfer(firstCardInfo);
 

@@ -22,16 +22,6 @@ public class DashboardPage {
         heading.shouldBe(visible);
     }
 
-    public int getFirstCardBalance(DataHelper.CardInfo cardInfo) {
-        var text = cards.findBy(Condition.attribute("data-test-id", cardInfo.getTestId())).getText();
-        return extractBalance(text);
-    }
-
-    //public int getFirstCardBalance(int index) {
-        //var text = cards.get(index).getText();
-        //return extractBalance(text);
-
-    //}
 
     public TransferPage selectCardToTransfer(DataHelper.CardInfo cardInfo) {
         cards.findBy(Condition.attribute("data-test-id", cardInfo.getTestId())).$("button").click();
