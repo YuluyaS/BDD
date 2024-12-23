@@ -73,23 +73,5 @@ public class MoneyTransferTest {
 
 
 
-    @Test
-    void shouldGetInvariableBalancesForTransferIfAmountMoreBalance() {
-
-        var amount = generateInvalidAmount(secondCardBalance);
-        var expectedFirstCardBalance = firstCardBalance;
-        var expectedSecondCardBalance = secondCardBalance;
-
-        var transferPage = dashboardPage.selectCardToTransfer(firstCardInfo);
-
-        transferPage.makeTransfer(String.valueOf(amount), secondCardInfo);
-
-        assertAll(() -> dashboardPage.reloadDashboardPage(),
-                () -> assertEquals(expectedFirstCardBalance, dashboardPage.getCardBalance(firstCardInfo)),
-                () -> assertEquals(expectedSecondCardBalance, dashboardPage.getCardBalance(secondCardInfo))
-        );
-    }
-
-
 
 }

@@ -48,11 +48,6 @@ public class DataHelper {
     public static class VerificationCode {
         String code;
 
-        public VerificationCode(String code) {
-
-            this.code = code;
-        }
-
     }
 
 
@@ -61,40 +56,13 @@ public class DataHelper {
         String cardNumber;
         String testId;
 
-        public CardInfo(String cardNumber, String testId) {
-
-            this.cardNumber = cardNumber;
-            this.testId = testId;
-        }
-
-        public String getCardNumber() {
-            return this.cardNumber;
-        }
-
-        public String getTestId() {
-
-            return this.testId;
-        }
     }
+
 
     @Value
     public static class AuthInfo {
         String login;
         String password;
-
-        public AuthInfo(String login, String password) {
-
-            this.login = login;
-            this.password = password;
-        }
-
-        public String getLogin() {
-            return this.login;
-        }
-
-        public String getPassword() {
-            return this.password;
-        }
 
     }
 }
